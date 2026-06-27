@@ -40,4 +40,5 @@ next-env.d.ts
 
 .blayer
 .blayer
-.qodo
+.qodo.vscode
+.claude
