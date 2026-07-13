@@ -48,11 +48,10 @@ src/shared/
 | `delete`    |   ✅    |     ❌     |  ❌  |      ❌      |             ✅              |
 | `fetch`     |   ❌    |     ✅     |  ❌  |      ❌      |             ❌              |
 | `store`     |   ❌    |     ✅     |  ❌  |      ❌      |             ❌              |
-| `change`    |   ❌    |     ✅     |  ❌  |      ❌      |             ❌              |
 | `remove`    |   ❌    |     ✅     |  ❌  |      ❌      |             ❌              |
 | `load`      |   ❌    |     ❌     |  ✅  |      ✅      |             ❌              |
 | `save`      |   ❌    |     ❌     |  ✅  |      ✅      |             ❌              |
-| `sync`      |   ❌    |     ❌     |  ✅  |      ✅      |             ❌              |
+| `modify`    |   ❌    |     ✅     |  ✅  |      ✅      |             ❌              |
 | `destroy`   |   ❌    |     ❌     |  ✅  |      ✅      |             ❌              |
 
 ---
@@ -245,7 +244,7 @@ export const use{Filename}Controllers = () => {
 |------|--------|--------|
 | GET | `fetch` | `fetchUsersProfile()` |
 | POST | `store` | `storeRegisterFile()` |
-| PUT/PATCH | `change` | `changeUsersProfile()` |
+| PUT/PATCH | `modify` | `modifyUsersProfile()` |
 | DELETE | `remove` | `removeUsersProfile()` |
 
 ---
