@@ -146,7 +146,7 @@ src/
 
 ## 🏗️ Architecture Guide
 
-Complete documentation for architecture, naming conventions, and best practices is available in [CODE.md](./CODE.md).
+Complete documentation for architecture, naming conventions, and best practices is available in [CODE.md](./CODE.md) [RESPONSE.md](./RESPONSE.md).
 
 **Key Topics:**
 - Naming conventions (functions, files, folders)
