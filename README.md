@@ -110,12 +110,12 @@ src/
 │   ├── _document.tsx        # HTML document setup
 │   └── index.tsx            # Home page
 ├── features/
-│   └── {featureName}/
-│       ├── types/           # TypeScript interfaces & types
-│       ├── states/          # Zustand stores
-│       ├── services/        # API call functions
-│       ├── controllers/     # TanStack Query hooks
-│       └── components/      # React components
+│   └── {folderName}/        # kebab-case, derived from endpoint (see standards/FECODE.md)
+│       ├── types/           # {fileName}Types.ts — TypeScript interfaces & types
+│       ├── states/          # {fileName}States.ts — Zustand stores
+│       ├── services/        # {fileName}Services.ts — API call functions
+│       ├── controllers/     # {fileName}Controllers.ts — TanStack Query hooks
+│       └── components/      # {fileName}{Action}.tsx — React components
 ├── shared/
 │   ├── lib/
 │   │   ├── prisma.ts       # Prisma client singleton
@@ -126,6 +126,14 @@ src/
 │       ├── en.json         # English translations
 │       └── id.json         # Indonesian translations
 └── public/                 # Static files
+
+server/                       # Backend (see standards/BECODE.md)
+├── config/                  # Env configuration
+├── routes/                  # Mount feature routers
+├── api/
+│   └── features/
+│       └── {folder-name}/   # dto, entities, repositories, services, controllers, module.ts
+└── shared/                  # prisma, middlewares, filters, interceptors, queues, services, utils
 ```
 
 ---
@@ -138,24 +146,80 @@ src/
 | `npm run build` | Build for production |
 | `npm run start` | Start production server |
 | `npm run lint` | Run ESLint |
-| `npm run type-check` | Run TypeScript type checking |
 | `npm run db:push` | Push Prisma schema to database (prototyping) |
 | `npm run db:studio` | Open Prisma Studio (database GUI) |
 
 ---
 
+## 🧭 Next Steps: Building on This Starter
+
+After the Quick Start, every new feature must follow the documents in the [standards/](./standards) folder. Read them before writing code.
+
+| Step | What to do | Standard |
+|------|-----------|----------|
+| 1 | Define the endpoint and derive names from the URL (drop base URL, `api`, `v{n}`, and dynamic segments) → `folderName`, `fileName`, `resourceName` | [FECODE.md](./standards/FECODE.md#penamaan-folder--file) |
+| 2 | Design the API response contract (`success`, `data`, `error`, `pagination`, `message`) and HTTP status codes | [RESPONSE.md](./standards/RESPONSE.md) |
+| 3 | Build the backend feature in `server/api/features/{folder-name}/`: DTO → Entity → Repository → Service → Controller → `module.ts`, then mount it in `server/routes/index.ts` | [BECODE.md](./standards/BECODE.md) |
+| 4 | Build the frontend feature in `src/features/{folderName}/`: Types → States → Services → Controllers → Components | [FECODE.md](./standards/FECODE.md) |
+| 5 | Verify: `npm run lint` and `npx tsc --noEmit` pass, and no function name uses a prefix outside the convention | [FECODE.md](./standards/FECODE.md#final-rules), [BECODE.md](./standards/BECODE.md#final-rules) |
+
+### Frontend flow (FECODE)
+
+```txt
+src/features/{folderName}/
+├── types/{fileName}Types.ts
+├── states/{fileName}States.ts
+├── services/{fileName}Services.ts
+├── controllers/{fileName}Controllers.ts
+└── components/{fileName}{Action}.tsx
+```
+
+### Backend flow (BECODE)
+
+```txt
+server/api/features/{folder-name}/
+├── dto/{fileName}.dto.ts
+├── entities/{fileName}.entity.ts
+├── repositories/{fileName}.repository.ts
+├── services/{fileName}.service.ts
+├── controllers/{fileName}.controller.ts
+└── module.ts
+```
+
+### Function prefixes per layer
+
+| Layer | Prefixes |
+|-------|----------|
+| FE Service | `get` `post` `update` `patch` `delete` |
+| FE Controller | `fetch` `store` `modify` `remove` |
+| FE Component / emit | `load` `submit` `edit` `clear` |
+| BE Repository | `get` `post` `update` `patch` `delete` |
+| BE Service | `fetch` `store` `change` `remove` |
+| BE Controller | `load` `save` `modify` `destroy` |
+
+> Do not introduce prefixes outside these lists (e.g. `create`, `find`, `handle`, `process`).
+
+---
+
 ## 🏗️ Architecture Guide
 
-Complete documentation for architecture, naming conventions, and best practices is available in [CODE.md](./CODE.md) [RESPONSE.md](./RESPONSE.md).
+Complete documentation for architecture, naming conventions, and best practices lives in the [standards/](./standards) folder:
+
+| Document | Scope |
+|----------|-------|
+| [FECODE.md](./standards/FECODE.md) | Frontend architecture, naming, Types/States/Services/Controllers/Components rules |
+| [BECODE.md](./standards/BECODE.md) | Backend architecture, layer boundaries, error handling, Redis/queue, testing |
+| [RESPONSE.md](./standards/RESPONSE.md) | Standard API response and HTTP status codes |
 
 **Key Topics:**
 - Naming conventions (functions, files, folders)
-- Layer structure (Types, States, Services, Controllers, Components)
+- Layer structure (FE: Types, States, Services, Controllers, Components; BE: DTO, Entity, Repository, Service, Controller, Module)
 - React component best practices
 - TanStack Query (React Query) patterns
 - Zustand store management
 - Zod validation schema
 - API integration patterns
+- Standard API response format
 
 ---
 
